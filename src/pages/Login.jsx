@@ -68,7 +68,16 @@ function Login({ setMode }) {
           return;
         }
 
-        alert("LOGIN OK");
+        // 🔐 SALVA TOKEN DE SESSÃO
+        const { accessToken, refreshToken } = response.data.authenticate;
+        const user = response.data.user;
+
+        localStorage.setItem("accessToken", accessToken.token);
+        localStorage.setItem("refreshToken", refreshToken.token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // muda app para estado logado
+        setMode("logged");
         return;
       }
     } catch (err) {
@@ -91,6 +100,10 @@ function Login({ setMode }) {
             onChange={(e) => setCpf(e.target.value)}
           />
 
+          <button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Aguarde..." : "Continuar"}
+          </button>
+
           <button
             type="button"
             onClick={() => {
@@ -112,14 +125,8 @@ function Login({ setMode }) {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <button
-            type="button"
-            onClick={() => {
-              resetLogin();
-              setMode("signup");
-            }}
-          >
-            Criar Conta
+          <button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Aguarde..." : "Continuar"}
           </button>
         </>
       )}
@@ -133,30 +140,26 @@ function Login({ setMode }) {
             onChange={(e) => setPhone(e.target.value)}
           />
 
-          <button
-            type="button"
-            onClick={() => {
-              resetLogin();
-              setMode("signup");
-            }}
-          >
-            Criar Conta
+          <button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Aguarde..." : "Continuar"}
           </button>
         </>
       )}
 
       {step === "password" && (
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      )}
+        <>
+          <input
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-      <button onClick={handleSubmit} disabled={loading}>
-        {loading ? "Aguarde..." : "Continuar"}
-      </button>
+          <button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Aguarde..." : "Continuar"}
+          </button>
+        </>
+      )}
 
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>

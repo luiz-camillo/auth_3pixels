@@ -1,6 +1,82 @@
 .login-container {
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #a3f28e;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Card */
+.login-container > div {
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 20px;
+  width: 420px;            /* fixa largura para alinhar tudo */
+  text-align: center;
+
+  display: flex;           /* garante alinhamento interno */
+  flex-direction: column;
+  align-items: center;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Títulos e texto */
+h1 {
+  margin-bottom: 8px;
+  color: #659aca;
+}
+
+p {
+  margin-bottom: 24px;
+  color: #555;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+
+  background-color: #ffffff; /* mata tema dark herdado */
+  color: #333;
+  font-size: 16px;
+}
+
+input::placeholder {
+  color: #999;
+}
+
+input:focus {
+  outline: none;
+  border-color: #659aca;
+}
+
+/* Botões */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: none;
+
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+
+  background-color: #659aca;
+  color: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #8965a5;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

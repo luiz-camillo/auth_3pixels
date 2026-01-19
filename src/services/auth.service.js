@@ -76,3 +76,51 @@ export async function signin(cpf, password) {
 
   return data;
 }
+
+export async function signup(payload) {
+  const response = await fetch(`${BASE_URL}/authenticate/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+
+  const data = await response.json();
+
+  return data;
+}
+
+export async function checkToken() {
+  const token = localStorage.getItem("accessToken");
+
+  const response = await fetch(`${BASE_URL}/authenticate/check`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+  return data;
+}
+
+export async function refreshToken() {
+  const refreshToken = localStorage.getItem("refreshToken");
+
+  const response = await fetch(`${BASE_URL}/authenticate/refresh`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      refreshToken,
+    }),
+  });
+
+  const data = await response.json();
+  return data;
+}
+
+
+
