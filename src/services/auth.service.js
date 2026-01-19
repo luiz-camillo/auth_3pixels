@@ -55,3 +55,24 @@ export async function checkPhone(cpf, phone) {
 
   return data.data.exists; // true | false
 }
+
+export async function signin(cpf, password) {
+  const response = await fetch(`${BASE_URL}/authenticate/signin`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: cpf,
+      password: password,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!data.success) {
+    return data;
+  }
+
+  return data;
+}

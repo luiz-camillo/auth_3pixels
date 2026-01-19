@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { preSignin, checkEmail, checkPhone } from "../services/auth.service";
+import {
+  preSignin,
+  checkEmail,
+  checkPhone,
+  signin,
+} from "../services/auth.service";
 
 function Login() {
-  const [step, setStep] = useState("cpf"); // cpf | email | phone
+  const [step, setStep] = useState("cpf"); // cpf | email | phone | password
   const [cpf, setCpf] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -21,6 +27,7 @@ function Login() {
           return;
         }
         setStep("email");
+        return;
       }
 
       if (step === "email") {
@@ -30,6 +37,7 @@ function Login() {
           return;
         }
         setStep("phone");
+        return;
       }
 
       if (step === "phone") {
@@ -38,12 +46,23 @@ function Login() {
           setError("Telefone não confere com o CPF");
           return;
         }
+        setStep("password");
+        return;
+      }
 
-        alert("CPF, e-mail e telefone validados");
-        // próximo passo: senha
+      if (step === "password") {
+        const response = await signin(cpf, password);
+
+        if (!response.success) {
+          setError("Senha incorreta");
+          return;
+        }
+
+        alert("LOGIN OK");
+        return;
       }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Erro inesperado");
     } finally {
       setLoading(false);
     }
@@ -74,17 +93,26 @@ function Login() {
       {step === "phone" && (
         <input
           type="text"
-          placeholder="Telefone (somente números)"
+          placeholder="Telefone"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
       )}
 
+      {step === "password" && (
+        <input
+          type="password"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      )}
+
       <button onClick={handleSubmit} disabled={loading}>
-        Continuar
+        {loading ? "Aguarde..." : "Continuar"}
       </button>
 
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 }
