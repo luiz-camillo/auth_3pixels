@@ -6,7 +6,7 @@ import {
   signin,
 } from "../services/auth.service";
 
-function Login() {
+function Login({ setMode }) {
   const [step, setStep] = useState("cpf"); // cpf | email | phone | password
   const [cpf, setCpf] = useState("");
   const [email, setEmail] = useState("");
@@ -14,6 +14,16 @@ function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  function resetLogin() {
+    setStep("cpf");
+    setCpf("");
+    setEmail("");
+    setPhone("");
+    setPassword("");
+    setError("");
+    setLoading(false);
+  }
 
   async function handleSubmit() {
     setError("");
@@ -73,30 +83,66 @@ function Login() {
       <h2>Login</h2>
 
       {step === "cpf" && (
-        <input
-          type="text"
-          placeholder="CPF"
-          value={cpf}
-          onChange={(e) => setCpf(e.target.value)}
-        />
+        <>
+          <input
+            type="text"
+            placeholder="CPF"
+            value={cpf}
+            onChange={(e) => setCpf(e.target.value)}
+          />
+
+          <button
+            type="button"
+            onClick={() => {
+              resetLogin();
+              setMode("signup");
+            }}
+          >
+            Criar Conta
+          </button>
+        </>
       )}
 
       {step === "email" && (
-        <input
-          type="email"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <>
+          <input
+            type="email"
+            placeholder="E-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <button
+            type="button"
+            onClick={() => {
+              resetLogin();
+              setMode("signup");
+            }}
+          >
+            Criar Conta
+          </button>
+        </>
       )}
 
       {step === "phone" && (
-        <input
-          type="text"
-          placeholder="Telefone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
+        <>
+          <input
+            type="text"
+            placeholder="Telefone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+
+          <button
+            type="button"
+            onClick={() => {
+              resetLogin();
+              setMode("signup");
+            }}
+          >
+            Criar Conta
+          </button>
+        </>
       )}
 
       {step === "password" && (
