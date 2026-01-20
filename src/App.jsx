@@ -11,39 +11,45 @@ function App() {
   const [mode, setMode] = useState(null); // null | login | signup | logged
   const [loading, setLoading] = useState(true);
 
-  // roda UMA VEZ quando o app abre
   useEffect(() => {
     async function validateSession() {
-      const accessToken = localStorage.getItem("accessToken");
+      try {
+        const accessToken = localStorage.getItem("accessToken");
 
-      // não tem token → não está logado
-      if (!accessToken) {
-        setMode(null);
-        setLoading(false);
-        return;
-      }
+        // sem token → deslogado
+        if (!accessToken) {
+          setMode(null);
+          return;
+        }
 
-      // tenta validar access token
-      const check = await checkToken();
+        // 1) valida access token
+        const check = await checkToken();
 
-      if (check.success) {
-        setMode("logged");
-        setLoading(false);
-        return;
-      }
+        if (check?.success) {
+          setMode("logged");
+          return;
+        }
 
-      // tenta renovar token
-      const refresh = await apiRefreshToken();
+        // 2) tenta refresh
+        const refresh = await apiRefreshToken();
 
-      if (refresh.success) {
-        localStorage.setItem("accessToken", refresh.data.accessToken.token);
-        setMode("logged");
-      } else {
+        if (refresh?.success) {
+          localStorage.setItem(
+            "accessToken",
+            refresh.data.accessToken.token
+          );
+          setMode("logged");
+        } else {
+          localStorage.clear();
+          setMode(null);
+        }
+      } catch (err) {
+        console.error("Erro na validação de sessão:", err);
         localStorage.clear();
         setMode(null);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     }
 
     validateSession();
