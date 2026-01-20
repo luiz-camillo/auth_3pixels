@@ -8,20 +8,22 @@ import {
 import "./App.css";
 
 function App() {
-  const [mode, setMode] = useState(null);
+  const [mode, setMode] = useState(null); // null | login | signup | logged
   const [loading, setLoading] = useState(true);
 
+  // roda UMA VEZ quando o app abre
   useEffect(() => {
     async function validateSession() {
       const accessToken = localStorage.getItem("accessToken");
 
+      // não tem token → não está logado
       if (!accessToken) {
         setMode(null);
         setLoading(false);
         return;
       }
 
-      // 1. tenta validar access token
+      // tenta validar access token
       const check = await checkToken();
 
       if (check.success) {
@@ -30,14 +32,11 @@ function App() {
         return;
       }
 
-      // 2. tenta refresh
+      // tenta renovar token
       const refresh = await apiRefreshToken();
 
       if (refresh.success) {
-        localStorage.setItem(
-          "accessToken",
-          refresh.data.accessToken.token
-        );
+        localStorage.setItem("accessToken", refresh.data.accessToken.token);
         setMode("logged");
       } else {
         localStorage.clear();
