@@ -1,16 +1,19 @@
-# React + Vite
+# Auth 3Pixels
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação frontend para autenticação de usuários com fluxo seguro de login e criação de conta. O sistema valida CPF, e-mail, telefone e senha em etapas, garantindo consistência dos dados antes da autenticação final. Após o login, tokens de sessão são armazenados localmente para manter o usuário autenticado mesmo após recarregar a página.
 
-Currently, two official plugins are available:
+## Tecnologias
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React
+- Vite
+- JavaScript
+- CSS
+- API REST para autenticação
 
-## React Compiler
+## Requisitos para rodar localmente
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js 18+
+- npm ou yarn
+- Backend de autenticação ativo e acessível
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Após clonar o repositório, instale as dependências com `npm install` e execute `npm run dev`.
